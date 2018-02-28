@@ -5,7 +5,8 @@ BACKUPDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DAY=$(date +"%u")
 
 # Schedule for the backup, every midnight
-SCHEDULE="00 00 * * *"
+#SCHEDULE="00 00 * * *"
+SCHEDULE="* * * * *"
 
 # Credentials
 MYSQLUSER="root"
@@ -22,10 +23,13 @@ touch /etc/cron.d/bahmni-auto-backup		# start writing the cronjob
 echo "#!/bin/sh" >> /etc/cron.d/bahmni-auto-backup
 echo "" >> /etc/cron.d/bahmni-auto-backup
 echo "# Backup openMRS database" >> /etc/cron.d/bahmni-auto-backup
-echo "${SCHEDULE} root mysqldump -u${MYSQLUSER} -p${MYSQLPASS} openmrs > ${DIR}/openmrs_backup_${DAY}.sql" >> /etc/cron.d/bahmni-auto-backup
+echo "${SCHEDULE} root mysqldump -u${MYSQLUSER} -p${MYSQLPASS} openmrs > ${BACKUPDIR}/backups/openmrs_backup_${DAY}.sql" >> /etc/cron.d/bahmni-auto-backup
 
 #echo "# Backup openELIS database" >> /etc/cron.d/bahmni-auto-backup
 #echo "${SCHEDULE} root php ${DIR}/index.php sms" >> /etc/cron.d/bahmni-auto-backup
+#PGPASSWORD="dhis" 
+echo "${SCHEDULE} root pg_dump --host localhost --username clinlims --no-password --format custom --blobs --verbose --dbname clinlims --file '{$BACKUPDIR}/backups/openELIS_$(date +"%u").backup'" >> /etc/cron.d/bahmni-auto-backup
+
 
 #echo "# Backup openERP database" >> /etc/cron.d/bahmni-auto-backup
 #echo "${SCHEDULE} root php ${DIR}/index.php sms" >> /etc/cron.d/bahmni-auto-backup
