@@ -28,7 +28,7 @@ echo "${SCHEDULE} root mysqldump -u${MYSQLUSER} -p${MYSQLPASS} openmrs > ${BACKU
 #echo "# Backup openELIS database" >> /etc/cron.d/bahmni-auto-backup
 #echo "${SCHEDULE} root php ${DIR}/index.php sms" >> /etc/cron.d/bahmni-auto-backup
 #PGPASSWORD="dhis" 
-echo "${SCHEDULE} root pg_dump --host localhost --username clinlims --no-password --format custom --blobs --verbose --dbname clinlims --file '{$BACKUPDIR}/backups/openELIS_${DAY}.backup'" >> /etc/cron.d/bahmni-auto-backup
+echo "${SCHEDULE} root pg_dump --host localhost --username clinlims --no-password --format custom --blobs --verbose --file \"${BACKUPDIR}/backups/openELIS_${DAY}.backup\"" >> /etc/cron.d/bahmni-auto-backup
 
 
 #echo "# Backup openERP database" >> /etc/cron.d/bahmni-auto-backup
